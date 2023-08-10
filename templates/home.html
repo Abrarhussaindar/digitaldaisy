@@ -456,55 +456,7 @@
     {% endif %} 
 </main>
 {%  include 'footer.html' %}
-<script>
-  var inactivityTimeout;
-  var inactivityTimer;
 
-  function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(logoutUser, inactivityTimeout * 1000);
-  }
-
-  function logoutUser() {
-    var currentUserDepartment = "{{ emp.department }}"; // Replace with the variable that holds the employee's department
-    var excludedDepartments = ["Sales Digital Daisy", "Sales Daisy TecMart", "Sales Daisy Fashion"]; // Add the department names to exclude from the inactivity timer
-
-    // Check if the current user's department is in the excluded departments list
-    if (!excludedDepartments.includes(currentUserDepartment)) {
-      sessionStorage.removeItem("startTime");
-      window.location.href = "{% url 'user_logout' %}";
-    }
-  }
-
-  // Replace "{{ user_role }}" with the actual variable that holds the user's role
-  var userRole = "{{ emp }}";
-  console.log(userRole)
-  infinity = 99999
-  // Set different inactivity timeouts based on the user's role
-  if ("{{ emp.is_superuser }}" == "True" ) {
-    console.log("su: {{ emp.is_superuser }}")
-    inactivityTimeout = infinity;
-  }else if ("{{ emp.is_HR }}" == "True"){
-    console.log("hr: {{ emp.is_HR }}")
-    inactivityTimeout = 900; // 30 minutes (30 minutes * 60 seconds)
-  }
-   // 1 hour (1 hour * 60 minutes * 60 seconds
-  else if ("{{ emp.is_teamLead }}" == "True"){
-    console.log("tl: {{ emp.is_teamLead }}")
-    inactivityTimeout = 1800; // 30 minutes (30 minutes * 60 seconds)
-  }else if ("{{ emp }}" == "admin"){
-    inactivityTimeout = infinity; // 30 minutes (30 minutes * 60 seconds)
-  } 
-  else {
-    inactivityTimeout = 300; // Default timeout for other users (10 minutes)
-  }
-
-  console.log(inactivityTimeout)
-
-  document.addEventListener("mousemove", resetInactivityTimer);
-  document.addEventListener("keydown", resetInactivityTimer);
-  resetInactivityTimer();
-</script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
