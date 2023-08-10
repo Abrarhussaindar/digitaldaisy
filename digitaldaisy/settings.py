@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-_=(!5*r%s4!uvi94o3@8w1m9al5^4)&sk4pos(0h^1575@g0oa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "https://digitaldaisy-production.up.railway.app/"]
+ALLOWED_HOSTS = ["*", "https://digitaldaisy-production.up.railway.app/", "https://console.cron-job.org/"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'login_system',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -65,6 +66,8 @@ MIDDLEWARE = [
 # ]
 
 ROOT_URLCONF = 'digitaldaisy.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
