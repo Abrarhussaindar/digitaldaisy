@@ -46,9 +46,6 @@ def force_logout_other_users(request):
     return JsonResponse({"message": "All other users have been logged out."})
 
 
-
-
-
 # Define constants for work time and remaining time limits
 MAX_WORK_TIME = timedelta(hours=8)
 MIN_REMAINING_TIME = timedelta(hours=0)
