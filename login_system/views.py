@@ -50,6 +50,13 @@ def force_logout_other_users(request):
 MAX_WORK_TIME = timedelta(hours=8)
 MIN_REMAINING_TIME = timedelta(hours=0)
 
+from django.http import JsonResponse
+from django.core.management import call_command
+
+def transfer_daily_to_weekly_view(request):
+    call_command('transfer_daily_to_weekly')
+    return JsonResponse({"message": "Transfer initiated"})
+
 
 @login_required(login_url='login')
 def get_remaining_time(request):

@@ -15,4 +15,5 @@ urlpatterns = [
     path('download_attendance/', views.download_attendance, name='download_attendance'),
     # path('download_attendance/', views.download_attendance, name='download_attendance'),
     path('take-attendence/', views.take_attendence, name='take_attendence'),
+    path('transfer_daily_to_weekly/', views.transfer_daily_to_weekly_view),
 ]
