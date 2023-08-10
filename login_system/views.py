@@ -473,20 +473,20 @@ def download_daily_employee_details_view(request):
 
 
 @login_required
-def take_attendence(request):
+def take_attendence():
     # Perform the tasks using the existing transfer_daily_to_weekly_lists() and transfer_weekly_to_monthly_lists() functions
-    transfer_daily_to_weekly_lists(request)
+    transfer_daily_to_weekly_lists()
     transfer_weekly_to_monthly_lists()
     transfer_monthly_to_yearly_lists()
     return JsonResponse({"message": "Attendence taken successfully."})
 
 
 
-def transfer_daily_to_weekly_lists(request):
+def transfer_daily_to_weekly_lists():
     # Get all employees
     employees = Employee.objects.all()
     print("employees: ", employees)
-    current_user = request.user
+    # current_user = request.user
     # Get the current date and time
     current_datetime = datetime.now(pytz.timezone('Asia/Kolkata'))
 
