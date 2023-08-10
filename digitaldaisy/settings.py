@@ -84,7 +84,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'digitaldaisy.wsgi.application'
 AUTH_USER_MODEL = 'login_system.Employee'
-
+CSRF_TRUSTED_ORIGINS = ["https://digitaldaisy-production.up.railway.app/",]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
