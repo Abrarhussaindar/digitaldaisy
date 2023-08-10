@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Automates the attendance tasks'
 
     def handle(self, *args, **options):
-        transfer_daily_to_weekly_lists()
+        print("hello cron jobs")
         # transfer_weekly_to_monthly_lists()
         # transfer_monthly_to_yearly_lists()
         self.stdout.write(self.style.SUCCESS('Attendance tasks completed'))
