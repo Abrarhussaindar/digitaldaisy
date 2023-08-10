@@ -496,7 +496,7 @@ def transfer_daily_to_weekly_lists():
     dt_time = time(hours, minutes, seconds)
     print("dt_time: ", dt_time)
     # Check if it's equal or greater than 11:40
-    if dt_time >= time(18, 30):
+    if dt_time >= time(17, 50):
         print("true")
         for emp in employees:
         
