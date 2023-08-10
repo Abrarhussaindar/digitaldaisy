@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daisy Employee Login System</title>
+    
+    <link rel="stylesheet" Content-Type = "text/css" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+
+  {%  include 'header.html' %}
+
+<main>
+{% if user.is_authenticated %} 
+    <div class="container">
+        <div class="emp">
+          <div class="name">
+          <h2>{% if user.is_authenticated %}
+                {% if user.is_teamLead or user.is_superuser %} 
+                  Welcome! "{{ emp.name }} (TL)"
+                {% else %}
+                  Welcome! "{{ emp.name }}"
+                {% endif %}
+              {% endif %} 
+          </h2>
+          </div>
+          <div class="btns">
+            {% if user.is_authenticated %} 
+              <a id="logout-link" href="{% url 'user_logout' %}">LOG OUT</a>
+              {% if user.is_teamLead or user.is_superuser %} 
+              <a id="logout-link" href="{% url 'permissions' %}">Change Permissions</a>
+                {% if user.is_HR %}
+                  <button class="btn" onclick="take_attendence()">Take Attendance</button>
+                  <button class="btn" onclick="downloadDailyEmployeeDetails()">Download Daily Attendance</button>
+                  <button class="btn" onclick="downloadEmployeeDetails()">Download Full Attendance</button>
+                {% endif %}
+              {% endif %}  
+            {% else %} 
+            <a href="{% url 'login' %}">LOGIN</a>
+            {% endif %} 
+        </div>
+        </div>
+            <div class="sec1">
+                <div class="pld">
+                    <h3>Personal Login Details</h3>
+                    
+                </div>
+                <div class="tbls">
+                    <div class="tw">
+                        <table border="0" cellspacing="0">
+                            <tr>
+                                <th>Current <br> LogIn Time</th>
+                                <th>Previous <br> Logout Time</th>
+                                <th>Last <br> Login Duration</th>
+                                <th class="twd">Previous<br> Work Done</th>
+                            </tr>
+                            <tr>
+                                <td>{{ emp.intime }} </td>
+                                <td>{{ emp.out_time }} </td>
+                                <td>{{ emp.duration_time }} </td>
+                                <td>{{ emp.previous_work_time }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- <div class="tb2"> -->
+                    <div class="tw">
+                        <table border="0" cellspacing="0">
+                            <tr>
+                                <th>Today's <br> Work Time</th>
+                                <th>Today's <br> Remaining Time</th>
+                            </tr>
+                            <tr>
+                            <td>
+                                <span id="total-work"></span>
+                            </td>
+                            <td>
+                                <span id="remaining-time"></span>
+                            </td>
+                            </tr>
+                        </table>
+                    
+                        <div class="kuch-bhi">
+                            <canvas id="workChart" width="100" height="100" style="
+                            
+                            box-sizing: border-box;
+                            height: 40px;
+                            width: 130px;" ></canvas>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if user.is_superuser %}
+            <div class="sec2">
+              <div class="tb3">
+                  <div class="pld">
+                      <h3>All Employee's Login Details</h3>
+                  </div>
+                  <div class="tw">
+                      <h4>Design & development</h4>
+                      <table border="0" cellspacing="0">
+                          <tr>
+                              <th>Employee <br> Name</th>
+                              <th class="twd">Current Day <br> Work Done</th>
+                              <th class="tr">Time <br> Remaining</th>
+                              <th class="twd">Previous <br> Work Done</th>
+                              <th>Current <br> LogIn Time</th>
+                              <th>Previous <br> Logout Time</th>
+                              <th>Last <br> Login Duration</th>
+                              <th>Permission</th>
+                          </tr>
+                          
+                              {% for dd_emp in design_development %}
+                                {% if dd_emp.username == user.username %}
+                                  
+                                {% else %}
+                                  <tr>
+                                      {% if dd_emp.is_teamLead %}
+                                        <td>{{ dd_emp.name }} (TL)</td>
+                                      {% else %}
+                                        <td>{{ dd_emp.name }}</td>
+                                      {% endif %}
+                                      <td>{{ dd_emp.work_time }}</td>
+                                      <td>{{ dd_emp.remaining_time }}</td>
+                                      <td>{{ dd_emp.previous_work_time }}</td>
+                                      <td>{{ dd_emp.intime }}</td>
+                                      <td>{{ dd_emp.out_time }}</td>
+                                      <td>{{ dd_emp.duration_time }}</td>
+                                      <td>{{ dd_emp.permission }}</td> 
+                                  </tr>
+                                {% endif %}
+                              {% endfor %}
+                          
+                          </table>
+                  </div>
+                  <div class="tw">
+                    <h4>SEO</h4>
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <th>Employee <br> Name</th>
+                            <th class="twd">Current Day <br> Work Done</th>
+                            <th class="tr">Time <br> Remaining</th>
+                            <th class="twd">Previous <br> Work Done</th>
+                            <th>Current <br> LogIn Time</th>
+                            <th>Previous <br> Logout Time</th>
+                            <th>Last <br> Login Duration</th>
+                            <th>Permission</th>
+                        </tr>
+                        
+                            {% for seo_emp in seo %}
+                              {% if seo_emp.username == user.username %}
+                                
+                              {% else %}
+                                <tr>
+                                    {% if seo_emp.is_teamLead %}
+                                      <td>{{ seo_emp.name }} (TL)</td>
+                                    {% else %}
+                                      <td>{{ seo_emp.name }}</td>
+                                    {% endif %}
+                                    <td>{{ seo_emp.work_time }}</td>
+                                    <td>{{ seo_emp.remaining_time }}</td>
+                                    <td>{{ seo_emp.previous_work_time }}</td>
+                                    <td>{{ seo_emp.intime }}</td>
+                                    <td>{{ seo_emp.out_time }}</td>
+                                    <td>{{ seo_emp.duration_time }}</td>
+                                    <td>{{ seo_emp.permission }}</td> 
+                                </tr>
+                              {% endif %}
+                            {% endfor %}
+                        
+                        </table>
+                </div>
+                <div class="tw">
+                  <h4>HR</h4>
+                  <table border="0" cellspacing="0">
+                      <tr>
+                          <th>Employee <br> Name</th>
+                          <th class="twd">Current Day <br> Work Done</th>
+                          <th class="tr">Time <br> Remaining</th>
+                          <th class="twd">Previous <br> Work Done</th>
+                          <th>Current <br> LogIn Time</th>
+                          <th>Previous <br> Logout Time</th>
+                          <th>Last <br> Login Duration</th>
+                          <th>Permission</th>
+                      </tr>
+                      
+                          {% for hr_emp in hr %}
+                            {% if hr_emp.username == user.username %}
+                              
+                            {% else %}
+                              <tr> 
+                                  {% if hr_emp.is_teamLead and hr_emp.is_superuser %}
+                                    <td>{{ hr_emp.name }} (TL & SU)</td>
+                                  {% else %}
+                                    <td>{{ hr_emp.name }}</td>
+                                  {% endif %}
+                                  <td>{{ hr_emp.work_time }}</td>
+                                  <td>{{ hr_emp.remaining_time }}</td>
+                                  <td>{{ hr_emp.previous_work_time }}</td>
+                                  <td>{{ hr_emp.intime }}</td>
+                                  <td>{{ hr_emp.out_time }}</td>
+                                  <td>{{ hr_emp.duration_time }}</td>
+                                  <td>{{ hr_emp.permission }}</td> 
+                              </tr>
+                            {% endif %}
+                          {% endfor %}
+                      
+                      </table>
+              </div>
+              <div class="tw">
+                <h4>Content Writer</h4>
+                <table border="0" cellspacing="0">
+                    <tr>
+                        <th>Employee <br> Name</th>
+                        <th class="twd">Current Day <br> Work Done</th>
+                        <th class="tr">Time <br> Remaining</th>
+                        <th class="twd">Previous <br> Work Done</th>
+                        <th>Current <br> LogIn Time</th>
+                        <th>Previous <br> Logout Time</th>
+                        <th>Last <br> Login Duration</th>
+                        <th>Permission</th>
+                    </tr>
+                    
+                        {% for content_writer_emp in content_writer %}
+                          {% if content_writer_emp.username == user.username %}
+                            
+                          {% else %}
+                            <tr>
+                                {% if content_writer_emp.is_teamLead %}
+                                  <td>{{ content_writer_emp.name }} (TL)</td>
+                                {% else %}
+                                  <td>{{ content_writer_emp.name }}</td>
+                                {% endif %}
+                                <td>{{ content_writer_emp.work_time }}</td>
+                                <td>{{ content_writer_emp.remaining_time }}</td>
+                                <td>{{ content_writer_emp.previous_work_time }}</td>
+                                <td>{{ content_writer_emp.intime }}</td>
+                                <td>{{ content_writer_emp.out_time }}</td>
+                                <td>{{ content_writer_emp.duration_time }}</td>
+                                <td>{{ content_writer_emp.permission }}</td> 
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                    
+                    </table>
+            </div>
+            <div class="tw">
+              <h4>Process Co-Ordinator</h4>
+              <table border="0" cellspacing="0">
+                  <tr>
+                      <th>Employee <br> Name</th>
+                      <th class="twd">Current Day <br> Work Done</th>
+                      <th class="tr">Time <br> Remaining</th>
+                      <th class="twd">Previous <br> Work Done</th>
+                      <th>Current <br> LogIn Time</th>
+                      <th>Previous <br> Logout Time</th>
+                      <th>Last <br> Login Duration</th>
+                      <th>Permission</th>
+                  </tr>
+                  
+                      {% for process_co_ordinator_emp in process_co_ordinator %}
+                        {% if process_co_ordinator_emp.username == user.username %}
+                          
+                        {% else %}
+                          <tr>
+                              {% if process_co_ordinator_emp.is_teamLead and process_co_ordinator_emp.is_superuser %}
+                                <td>{{ process_co_ordinator_emp.name }} (TL & SU)</td>
+                              {% else %}
+                                <td>{{ process_co_ordinator_emp.name }}</td>
+                              {% endif %}
+                              <td>{{ process_co_ordinator_emp.work_time }}</td>
+                              <td>{{ process_co_ordinator_emp.remaining_time }}</td>
+                              <td>{{ process_co_ordinator_emp.previous_work_time }}</td>
+                              <td>{{ process_co_ordinator_emp.intime }}</td>
+                              <td>{{ process_co_ordinator_emp.out_time }}</td>
+                              <td>{{ process_co_ordinator_emp.duration_time }}</td>
+                              <td>{{ process_co_ordinator_emp.permission }}</td> 
+                          </tr>
+                        {% endif %}
+                      {% endfor %}
+                  
+                  </table>
+          </div>
+          <div class="tw">
+            <h4>Sales Daisy TecMart</h4>
+            <table border="0" cellspacing="0">
+                <tr>
+                    <th>Employee <br> Name</th>
+                    <th class="twd">Current Day <br> Work Done</th>
+                    <th class="tr">Time <br> Remaining</th>
+                    <th class="twd">Previous <br> Work Done</th>
+                    <th>Current <br> LogIn Time</th>
+                    <th>Previous <br> Logout Time</th>
+                    <th>Last <br> Login Duration</th>
+                    <th>Permission</th>
+                </tr>
+                
+                    {% for salestm_emp in salestm %}
+                      {% if salestm_emp.username == user.username %}
+                        
+                      {% else %}
+                        <tr>
+                            {% if salestm_emp.is_teamLead %}
+                              <td>{{ salestm_emp.name }} (TL)</td>
+                            {% else %}
+                              <td>{{ salestm_emp.name }}</td>
+                            {% endif %}
+                            <td>{{ salestm_emp.work_time }}</td>
+                            <td>{{ salestm_emp.remaining_time }}</td>
+                            <td>{{ salestm_emp.previous_work_time }}</td>
+                            <td>{{ salestm_emp.intime }}</td>
+                            <td>{{ salestm_emp.out_time }}</td>
+                            <td>{{ salestm_emp.duration_time }}</td>
+                            <td>{{ salestm_emp.permission }}</td> 
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                
+                </table>
+        </div>
+        <div class="tw">
+          <h4>Sales Daisy Fashion</h4>
+          <table border="0" cellspacing="0">
+              <tr>
+                  <th>Employee <br> Name</th>
+                  <th class="twd">Current Day <br> Work Done</th>
+                  <th class="tr">Time <br> Remaining</th>
+                  <th class="twd">Previous <br> Work Done</th>
+                  <th>Current <br> LogIn Time</th>
+                  <th>Previous <br> Logout Time</th>
+                  <th>Last <br> Login Duration</th>
+                  <th>Permission</th>
+              </tr>
+              
+                  {% for salesfs_emp in salesfs %}
+                    {% if salesfs_emp.username == user.username %}
+                      
+                    {% else %}
+                      <tr>
+                          {% if salesfs_emp.is_teamLead %}
+                            <td>{{ salesfs_emp.name }} (TL)</td>
+                          {% else %}
+                            <td>{{ salesfs_emp.name }}</td>
+                          {% endif %}
+                          <td>{{ salesfs_emp.work_time }}</td>
+                          <td>{{ salesfs_emp.remaining_time }}</td>
+                          <td>{{ salesfs_emp.previous_work_time }}</td>
+                          <td>{{ salesfs_emp.intime }}</td>
+                          <td>{{ salesfs_emp.out_time }}</td>
+                          <td>{{ salesfs_emp.duration_time }}</td>
+                          <td>{{ salesfs_emp.permission }}</td> 
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+              
+              </table>
+      </div>
+      <div class="tw">
+        <h4>Sales Digital Daisy</h4>
+        <table border="0" cellspacing="0">
+            <tr>
+                <th>Employee <br> Name</th>
+                <th class="twd">Current Day <br> Work Done</th>
+                <th class="tr">Time <br> Remaining</th>
+                <th class="twd">Previous <br> Work Done</th>
+                <th>Current <br> LogIn Time</th>
+                <th>Previous <br> Logout Time</th>
+                <th>Last <br> Login Duration</th>
+                <th>Permission</th>
+            </tr>
+            
+                {% for salesdd_emp in salesdd %}
+                  {% if salesdd_emp.username == user.username %}
+                    
+                  {% else %}
+                    <tr>
+                        {% if salesdd_emp.is_teamLead %}
+                          <td>{{ salesdd_emp.name }} (TL)</td>
+                        {% else %}
+                          <td>{{ salesdd_emp.name }}</td>
+                        {% endif %}
+                        <td>{{ salesdd_emp.work_time }}</td>
+                        <td>{{ salesdd_emp.remaining_time }}</td>
+                        <td>{{ salesdd_emp.previous_work_time }}</td>
+                        <td>{{ salesdd_emp.intime }}</td>
+                        <td>{{ salesdd_emp.out_time }}</td>
+                        <td>{{ salesdd_emp.duration_time }}</td>
+                        <td>{{ salesdd_emp.permission }}</td> 
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+            
+            </table>
+    </div>
+              </div>
+            </div>
+            {% elif user.is_teamLead %}
+              <div class="sec2">
+                <div class="tb3">
+                    <div class="pld">
+                        <h3>Other Employee's Login Details</h3>
+                    </div>
+                    <div class="tw">
+                        <table border="0" cellspacing="0">
+                            <tr>
+                              <th>Employee <br> Name</th>
+                              <th class="twd">Current Day <br> Work Done</th>
+                              <th class="tr">Time <br> Remaining</th>
+                              <th class="twd">Previous <br> Work Done</th>
+                              <th>Current <br> LogIn Time</th>
+                              <th>Previous <br> Logout Time</th>
+                              <th>Last <br> Login Duration</th>
+                              <th>Permission</th>
+                            </tr>
+                            
+                                {% for emp in employees %}
+                                  {% if emp.username == user.username %}
+                                    
+                                  {% else %}
+                                    {% comment %} <tr>
+                                        <td>{{ emp.name }}</td>
+                                        <td>{{ emp.work_time }}</td>
+                                        <td>{{ emp.remaining_time }}</td>
+                                        <td>{{ emp.intime }}</td>
+                                        <td>{{ emp.out_time }}</td>
+                                        <td>{{ emp.duration_time }}</td>
+                                        <td>{{ emp.permission }}</td> 
+                                    </tr> {% endcomment %}
+                                    <tr>
+                                      {% if emp.is_teamLead %}
+                                        <td>{{ emp.name }} (TL)</td>
+                                      {% else %}
+                                        <td>{{ emp.name }}</td>
+                                      {% endif %}
+                                      <td>{{ emp.work_time }}</td>
+                                      <td>{{ emp.remaining_time }}</td>
+                                      <td>{{ emp.previous_work_time }}</td>
+                                      <td>{{ emp.intime }}</td>
+                                      <td>{{ emp.out_time }}</td>
+                                      <td>{{ emp.duration_time }}</td>
+                                      <td>{{ emp.permission }}</td> 
+                                  </tr>
+                                  {% endif %}
+                                {% endfor %}
+                            
+                            </table>
+                    </div>
+                </div>
+            </div>
+            
+            {% endif %}
+    </div>
+    {% endif %} 
+</main>
+{%  include 'footer.html' %}
+<script>
+  var inactivityTimeout;
+  var inactivityTimer;
+
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(logoutUser, inactivityTimeout * 1000);
+  }
+
+  function logoutUser() {
+    var currentUserDepartment = "{{ emp.department }}"; // Replace with the variable that holds the employee's department
+    var excludedDepartments = ["Sales Digital Daisy", "Sales Daisy TecMart", "Sales Daisy Fashion"]; // Add the department names to exclude from the inactivity timer
+
+    // Check if the current user's department is in the excluded departments list
+    if (!excludedDepartments.includes(currentUserDepartment)) {
+      sessionStorage.removeItem("startTime");
+      window.location.href = "{% url 'user_logout' %}";
+    }
+  }
+
+  // Replace "{{ user_role }}" with the actual variable that holds the user's role
+  var userRole = "{{ emp }}";
+  console.log(userRole)
+  infinity = 99999
+  // Set different inactivity timeouts based on the user's role
+  if ("{{ emp.is_superuser }}" == "True" ) {
+    console.log("su: {{ emp.is_superuser }}")
+    inactivityTimeout = infinity;
+  }else if ("{{ emp.is_HR }}" == "True"){
+    console.log("hr: {{ emp.is_HR }}")
+    inactivityTimeout = 900; // 30 minutes (30 minutes * 60 seconds)
+  }
+   // 1 hour (1 hour * 60 minutes * 60 seconds
+  else if ("{{ emp.is_teamLead }}" == "True"){
+    console.log("tl: {{ emp.is_teamLead }}")
+    inactivityTimeout = 1800; // 30 minutes (30 minutes * 60 seconds)
+  }else if ("{{ emp }}" == "admin"){
+    inactivityTimeout = infinity; // 30 minutes (30 minutes * 60 seconds)
+  } 
+  else {
+    inactivityTimeout = 300; // Default timeout for other users (10 minutes)
+  }
+
+  console.log(inactivityTimeout)
+
+  document.addEventListener("mousemove", resetInactivityTimer);
+  document.addEventListener("keydown", resetInactivityTimer);
+  resetInactivityTimer();
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Get the canvas element
+      var workChartCanvas = document.getElementById('workChart');
+
+      // Create the chart context
+      var ctx = workChartCanvas.getContext('2d');
+
+      // Initialize the chart
+      var chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [
+            {
+              data: [0, 8 * 3600], // Initial data (0 hours worked)
+              backgroundColor: [
+                'red', // Color for remaining work time
+                'green', // Color for worked time
+              ],
+            },
+          ],
+        },
+        options: {
+          cutoutPercentage: 70, // Set the size of the inner circle
+          tooltips: {
+            enabled: false, // Disable tooltips
+          },
+        },
+      });
+
+      // Update the chart data with the employee's work time
+      var workTime = {{ total_work_seconds }};
+      var remainingTime = Math.max(8 * 3600 - workTime, 0);
+      chart.data.datasets[0].data = [remainingTime, workTime];
+      chart.update();
+    </script>
+
+    <script>
+      function updateData() {
+        // Make an AJAX request to the server to get the updated work time and remaining time
+        fetch("{% url 'get_work_time' %}")
+          .then((response) => response.json())
+          .then((data) => {
+            // Update the total work time
+            
+            document.getElementById("total-work").innerText = data.work_time;
+
+            // Update the remaining time (assuming you receive it in 'remaining_time' field)
+            document.getElementById("remaining-time").innerText =
+              data.remaining_time;
+          })
+          .catch((error) => {
+            console.error("Error updating data:", error);
+          });
+      }
+
+      // Refresh data every 10 seconds
+      setInterval(updateData, 120000);
+      updateData();
+    </script> 
+    <script>
+      function take_attendence() {
+        fetch('/take-attendence/') // Replace with the actual URL of your Django view
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.message);
+            location.reload(); // Log the response from the Django view
+            alert('Attendance has been taken.'); // Show an alert when tasks are executed successfully
+          })
+
+      }
+      </script>
+      <script>
+        function downloadEmployeeDetails() {
+            // Perform an AJAX request to the URL that triggers the download view
+            fetch("{% url 'download_employee_details' %}")
+            .then(response => {
+                // Create a temporary anchor element and set the download attribute to initiate the download
+                const anchor = document.createElement('a');
+                anchor.href = response.url;
+                anchor.download = "employee_details.xlsx";
+                anchor.target = "_blank"; // Optional: Open the download in a new tab/window
+                anchor.click();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    <script>
+      function downloadDailyEmployeeDetails() {
+          // Perform an AJAX request to the URL that triggers the download view
+          fetch("{% url 'download_daily_employee_details' %}")
+          .then(response => {
+              // Create a temporary anchor element and set the download attribute to initiate the download
+              const anchor = document.createElement('a');
+              anchor.href = response.url;
+              anchor.download = "daily_employee_details.xlsx";
+              anchor.target = "_blank"; // Optional: Open the download in a new tab/window
+              anchor.click();
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
+  </script>
+  </body>
+</html>

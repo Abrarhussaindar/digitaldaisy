@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'poppins', sans-serif;
+}
+
+main{
+  min-height: 100vh;
+}
+
+main .container{
+  max-width: 1140px;
+  margin: 0 auto;
+  
+}
+.container .emp{
+  display: flex;
+  justify-content: space-between;
+}
+.emp .btns{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+}
+.emp .btns a, .btn{
+  text-decoration: none;
+  color: white;
+  background: #881769;
+  padding: 10px 18px;
+  margin-left: 10px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+}
+.container .emp .name h2{
+  color: #881769;
+  font-size: 22px;
+  text-align: center;
+  font-weight: 500;
+  padding: 25px 0;
+}
+
+.container .sec1, .sec2{
+  /* border: 1px solid #881769; */
+  padding: 15px 15px 30px 15px;
+  background: #FFDEF6;
+  margin-bottom: 15px;
+}
+.container .sec2{
+  margin-bottom: 50px
+}
+.container .sec1 .pld h3{
+  color: #881769;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+
+.container .sec2 .tb3 .pld h3{
+  color: #881769;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.container .sec1 .tbls{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+table{
+  text-align: center;
+}
+.tw{
+  padding: 5px 25px;
+}
+.tbls .tw table{
+  border-left: 1px solid #881769;
+  border-top: 1px solid #881769;
+}
+.tw table{
+  border-left: 1px solid #881769;
+  border-top: 1px solid #881769;
+}
+.tw h4{
+  color: #881769;
+  padding: 10px;
+}
+.tw table tr th, td{
+  font-size: 14px;
+  color: #881769;
+  border-right: 1px solid #881769;
+  border-bottom: 1px solid #881769;
+  padding: 10px 15px;
+}
+.tbls .tw table tr th, td{
+  font-size: 14px;
+  color: #881769;
+  border-right: 1px solid #881769;
+  border-bottom: 1px solid #881769;
+  padding: 10px 15px;
+}
+.tbls .tw table tr td #total-work{
+  color: green;
+}
+.tbls .tw table tr td #remaining-time{
+  color: red;
+}
+.tbls .tw{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+
+/* footer{
+  position: fixed;
+  bottom: 0;
+  width: 95%;
+} */

@@ -1,0 +1,73 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'poppins', sans-serif;
+}
+main{
+  display: flex;
+  min-height: 100vh;
+}
+  main .container{
+    max-width: 1140px;
+    margin: 0 auto;
+    /* background-color: red; */
+  }
+  .container .dep{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .container .dep h1{
+    color: #881769;
+    font-size: 36px;
+    font-weight: 500;
+  }
+  .form{
+    /* border: 1px solid #881769; */
+    margin-top: 20px;
+    margin-bottom: 170px;
+  }
+  .form form{
+    /* display: flex;
+    flex-wrap: wrap; */
+    padding: 30px 0;
+  }
+  form .field{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  form .field  label{
+    font-size: 18px;
+    font-weight: 600;
+    color: #881769;
+  }
+  .form form .field select{
+    border: 1px solid #707070;
+    outline: none;
+    color: #707070;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    width: 72%;
+  }
+  .form form .field select:focus{
+    border: 1px solid #881769;
+    color: #881769;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  form .field button[type="submit"]{
+    position: absolute;
+    right: 0;
+    width: 56%;
+    color: white;
+    background: #881769;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 32px;
+    padding: 15px 20px;
+  }

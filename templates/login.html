@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" Content-Type = "text/css" href="{% static 'css/login.css' %}" />
+  </head>
+  
+  <body>
+{% comment %}     
+    {% if messages %}
+      <div class="alert alert-danger">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %} {% endcomment %}
+
+  {%  include 'header.html' %}
+
+<main>
+      <div class="container">
+      
+        <div class="category">
+          <div class="sec"><h1>Select Your Department</h1></div>
+          <div class="btns">
+            {% for category in department_categories %} 
+            <button id="{{ category }}" value=" {{ category }}" class="category-btns"> {{ category }} </button>
+            
+            {% endfor %} 
+          </div>
+            
+        </div>
+        <div class="wrapper wrapper-visibility">
+          <div class="sec"><h1>Enter Username & Password</h1></div>
+          <div class="form">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="field">
+                
+                <input id="department" placeholder="Department" type="text" name="department" required />
+              </div>
+              <div class="field">
+                
+                <input type="text" placeholder="Username" name="username" required />
+              </div>
+              <div class="field">
+                
+                <input type="password" placeholder="Password" name="Password" required />
+              </div>
+              <div class="field">
+                <input type="submit" class="submit-btn" value="Login" />
+              </div>
+              </form>
+          </div>
+          
+        </div>
+      </div>
+    </main>
+
+      {%  include 'footer.html' %}
+ 
+      {% if start_counter %}
+      <!-- Script to start the counter -->
+      <script>
+          startCounter();
+          // Show the popup after 2 seconds (optional)
+          setTimeout(() => {
+              document.getElementById('counter-popup').style.display = 'block';
+          }, 2000);
+      </script>
+  {% endif %}
+
+
+      {% if permission == 'not given' %}
+        <script>
+          window.alert("Get permission from your team lead.");
+        </script>
+      {% endif %}
+      <script>
+        let crbtn = document.getElementById("Content Writer");
+        console.log(crbtn)
+        let hrbtn = document.getElementById("HR");
+        let pcbtn = document.getElementById("Process Co-Ordinator");
+        let seobtn = document.getElementById("SEO");
+        let sddbtn = document.getElementById("Sales Digital Daisy");
+        let stmbtn = document.getElementById("Sales Daisy TecMart");
+        let sdfbtn = document.getElementById("Sales Daisy Fashion");
+        let mangbtn = document.getElementById("Management/Admin");
+        let ddbtn = document.getElementById("Design & Development");
+
+        let depart = document.getElementById("department")
+// console.log(depart.value = crbtn.value) 
+
+cate = document.querySelector(".category")
+form = document.querySelector(".wrapper")
+console.log(cate)
+
+crbtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = crbtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+
+hrbtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = hrbtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+
+pcbtn.addEventListener('click', () => {
+  cate.classList.add('category-visibilty');
+  depart.value = pcbtn.value
+  form.classList.remove('wrapper-visibility')
+
+})
+
+stmbtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = stmbtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+
+sddbtn.addEventListener('click', () => {
+  cate.classList.add('category-visibilty');
+  depart.value = sddbtn.value
+  form.classList.remove('wrapper-visibility')
+
+})
+
+sdfbtn.addEventListener('click', () => {
+  cate.classList.add('category-visibilty');
+  depart.value = sdfbtn.value
+  form.classList.remove('wrapper-visibility')
+
+})
+
+
+mangbtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = mangbtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+
+seobtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = seobtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+ddbtn.addEventListener('click', () => {
+    cate.classList.add('category-visibilty');
+    depart.value = ddbtn.value
+    form.classList.remove('wrapper-visibility')
+
+})
+
+
+let counter = 0;
+
+function startCounter() {
+    setInterval(() => {
+        counter++;
+        updatePopupContent(counter);
+    }, 1000);  // Update every second (1000 milliseconds)
+}
+
+function updatePopupContent(value) {
+    // Update the popup content with the counter value
+    document.getElementById('counter-popup').innerText = value;
+}
+      </script>
+      {% comment %} <script src="{% static 'js/main.js' %}" type="text/javaScript"></script> {% endcomment %}
+  </body>
+</html>

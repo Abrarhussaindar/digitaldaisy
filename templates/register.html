@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" Content-Type = "text/css" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <h1>Register</h1>
+    <div class="header-btns">
+          <a href="{% url "login" %}">Log in</a>
+    </div>
+    <div class="container">
+      <div class="title">Create New Account</div>
+      <div class="content">
+        <form method="POST">
+          {% csrf_token %}
+      
+          <div class="user-details">
+            <div class="input-box">
+              {% for field in form %}
+              <span class="details">{{ field.label }}</span>
+              {{ field }}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="Register">
+          </div>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
