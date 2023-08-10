@@ -33,7 +33,7 @@
               {% if user.is_teamLead or user.is_superuser %} 
               <a id="logout-link" href="{% url 'permissions' %}">Change Permissions</a>
                 {% if user.is_HR %}
-                  <button class="btn" onclick="take_attendence()">Take Attendance</button>
+                
                   <button class="btn" onclick="downloadDailyEmployeeDetails()">Download Daily Attendance</button>
                   <button class="btn" onclick="downloadEmployeeDetails()">Download Full Attendance</button>
                 {% endif %}
@@ -518,18 +518,6 @@
       setInterval(updateData, 120000);
       updateData();
     </script> 
-    <script>
-      function take_attendence() {
-        fetch('/take-attendence/') // Replace with the actual URL of your Django view
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.message);
-            location.reload(); // Log the response from the Django view
-            alert('Attendance has been taken.'); // Show an alert when tasks are executed successfully
-          })
-
-      }
-      </script>
       <script>
         function downloadEmployeeDetails() {
             // Perform an AJAX request to the URL that triggers the download view

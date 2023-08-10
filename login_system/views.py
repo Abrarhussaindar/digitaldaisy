@@ -472,13 +472,13 @@ def download_daily_employee_details_view(request):
     return response
 
 
-@login_required
-def take_attendence():
-    # Perform the tasks using the existing transfer_daily_to_weekly_lists() and transfer_weekly_to_monthly_lists() functions
-    transfer_daily_to_weekly_lists()
-    transfer_weekly_to_monthly_lists()
-    transfer_monthly_to_yearly_lists()
-    return JsonResponse({"message": "Attendence taken successfully."})
+# @login_required
+# def take_attendence():
+#     # Perform the tasks using the existing transfer_daily_to_weekly_lists() and transfer_weekly_to_monthly_lists() functions
+#     transfer_daily_to_weekly_lists()
+#     transfer_weekly_to_monthly_lists()
+#     transfer_monthly_to_yearly_lists()
+#     return JsonResponse({"message": "Attendence taken successfully."})
 
 
 
