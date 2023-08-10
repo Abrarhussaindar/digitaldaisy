@@ -15,5 +15,5 @@ urlpatterns = [
     path('download_attendance/', views.download_attendance, name='download_attendance'),
     # path('download_attendance/', views.download_attendance, name='download_attendance'),
     path('take-attendence/', views.take_attendence, name='take_attendence'),
-    path('automate_attendance/', views.automate_attendance_view),
+    path('automate_attendance/', views.automate_attendance_view, name='automate_attendance'),
 ]
