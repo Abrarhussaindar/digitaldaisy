@@ -50,12 +50,15 @@ def force_logout_other_users(request):
 MAX_WORK_TIME = timedelta(hours=8)
 MIN_REMAINING_TIME = timedelta(hours=0)
 
+# your_app/views.py
+
 from django.http import JsonResponse
 from django.core.management import call_command
 
-def transfer_daily_to_weekly_view(request):
-    call_command('transfer_daily_to_weekly')
-    return JsonResponse({"message": "Transfer initiated"})
+def automate_attendance_view(request):
+    call_command('automate_attendance')
+    return JsonResponse({"message": "Attendance automation initiated"})
+
 
 
 @login_required(login_url='login')
