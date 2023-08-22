@@ -97,6 +97,62 @@ class ListField(models.TextField):
 
         return self.token.join(value)
 
+# from collections.abc import Iterable
+# from datetime import timedelta
+# class ListField(models.TextField):
+
+#     class SubList(list):
+#         def __init__(self, token, *args):
+#             self.token = token
+#             super().__init__(*args)
+
+#         def __str__(self):
+#             return self.token.join(self)
+
+#     def __init__(self, *args, **kwargs):
+#         self.token = kwargs.pop('token', ',')
+#         super().__init__(*args, **kwargs)
+
+#     def deconstruct(self):
+#         name, path, args, kwargs = super().deconstruct()
+#         kwargs['token'] = self.token
+#         return name, path, args, kwargs
+
+#     def to_python(self, value):
+#         if isinstance(value, list):
+#             return value
+#         if value is None:
+#             return self.SubList(self.token)
+#         if isinstance(value, self.SubList):
+#             return self.SubList(self.token, value)
+#         return self.SubList(self.token, value.split(self.token))
+
+#     def from_db_value(self, value, expression, connection):
+#         return self.to_python(value)
+
+#     def value_to_string(self, obj):
+#         value = self.value_from_object(obj)
+#         return self.get_prep_value(value)
+
+#     def get_prep_value(self, value):
+#         if not value:
+#             return
+
+#         if isinstance(value, self.SubList):  # Check if it's a SubList
+#             inner_list = []
+#             for item in value:
+#                 if isinstance(item, timedelta):
+#                     inner_list.append(str(item.total_seconds()))  # Convert timedelta to seconds
+#                 else:
+#                     inner_list.append(self.token.join(map(str, item)))
+#             return self.token.join(inner_list)
+
+#         assert(isinstance(value, Iterable))
+
+#         # Convert all elements to strings
+#         value = [str(item) for item in value]
+
+#         return self.token.join(value)
 
 permissions = (
     ('given', 'given'),

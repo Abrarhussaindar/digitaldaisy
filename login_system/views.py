@@ -15,144 +15,14 @@ from .admin import download_employee_details,download_daily_employee_details
 from django.http import HttpResponse
 import openpyxl
 from django.utils import timezone
+
+
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
-
-
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
-
-from rest_framework.decorators import api_view, permission_classes # Import your Employee model
-
-@api_view(['GET'])
-# @permission_classes([authenticate])
-def home_api(request):
-    emp = request.user
-    if emp.permission == "not given":
-        logout(request)
-        return redirect('login')
-
-    date = datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    duration = None
-    login_time_str = request.session.get('login_time')
-    current_time = datetime.now(pytz.timezone('Asia/Kolkata'))
-    employees_by_dep = Employee.objects.filter(department=emp.department)
-    all_employees = Employee.objects.all()
-    design_development = Employee.objects.filter(department="Design & Development")
-    salestm = Employee.objects.filter(department="Sales Daisy TecMart")
-    salesfs = Employee.objects.filter(department="Sales Daisy Fashion")
-    salesdd = Employee.objects.filter(department="Sales Digital Daisy")
-    seo = Employee.objects.filter(department="SEO")
-    hr = Employee.objects.filter(department="HR")
-    content_writer = Employee.objects.filter(department="Content Writer")
-    admin = Employee.objects.filter(department="Management/Admin")
-    process_co_ordinator = Employee.objects.filter(department="Process Co-ordinator")
-    if login_time_str:
-        login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
-        duration = current_time - login_time
-        today = current_time.date()
-        total_work = emp.work_time + duration
-        total_work_seconds = total_work.total_seconds()
-        total_work_time = timedelta(hours=8)
-        remaining_time = total_work_time - total_work
-        total_work_str = str(total_work)
-        total_work_formatted = total_work_str.rjust(8, '0')
-        print("total_work_formatted: ", total_work_formatted)
-    else:
-        total_work_formatted = "00:00:00"
-        total_work_seconds = 0
-
-    for em in design_development:
-        if login_time_str:
-            login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
-            duration = current_time - login_time
-            today = current_time.date()
-            total_work = em.work_time + duration
-            total_work_seconds = total_work.total_seconds()
-            total_work_time = timedelta(hours=8)
-            remaining_time = total_work_time - total_work
-            total_work_str = str(total_work)
-            total_work_formatted = total_work_str.rjust(8, '0')
-        else:
-            total_work_formatted = "00:00:00"
-            total_work_seconds = 0
-
-    employees = Employee.objects.all()
-    current_datetime = datetime.now(pytz.timezone('Asia/Kolkata'))
-    dt_string = current_datetime.time().strftime("%H:%M:%S")
-
-    context = {
-        'emp': emp,
-        'employees': employees_by_dep,
-        'all_employees': all_employees,
-        'design_development': design_development,
-        'salesdd': salesdd,
-        'salestm': salestm,
-        'salesfs': salesfs,
-        'seo': seo,
-        'hr': hr,
-        'content_writer': content_writer,
-        'admin': admin,
-        'process_co_ordinator': process_co_ordinator,
-        'total_work_seconds': total_work_seconds,
-        'total_work': total_work_formatted,
-        'duration': duration.total_seconds() if duration else 0,
-    }
-    return render(request, "home.html", context)
-
-class LoginView(APIView):
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        department = request.data.get('department')
-        # Perform authentication logic here
-        # Return appropriate response based on authentication result
-        employee = authenticate(request, department=department, username=username, password=password)
-        if employee is not None and employee.permission == "given":  # Check permission
-            
-            login(request, employee)
-            employee.login_counter += 1
-            # Reset the counter to 0 on login
-            request.session['counter_time'] = 0
-            current_time = datetime.now(pytz.timezone('Asia/Kolkata'))
-            current_time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
-            employee.login_list.append(current_time_str)
-            employee.intime = current_time_str
-            employee.login_time = current_time
-            previous_login_time_str = request.session.get('login_time')
-            employee.daily_login_list.append(current_time_str)
-            login_time = parser.isoparse(previous_login_time_str).astimezone(pytz.timezone('Asia/Kolkata')) if previous_login_time_str else current_time
-            request.session['login_time'] = current_time.isoformat()
-            if previous_login_time_str:
-                previous_duration = current_time - login_time
-                counter_time = request.session.get('counter_time', 0) + previous_duration.total_seconds()
-                request.session['counter_time'] = counter_time
-
-            employee.login_time = current_time
-            employee.save()
-
-            return Response({"message": "Login successful"})
-        else:
-            employee.permission = "not given"
-            return Response({"message": "Login failed"}, status=400)
-        
-        
-        
-        
-        # if employee is not None and employee.permission == "given":  # Check permission
-            
-        #     login(request, employee)
-        #     employee.login_counter += 1
-        #     return Response({"message": "Login successful"})
-        # else:
-        #     return Response({"message": "Login failed"}, status=400)
-
-
 
 User = get_user_model()
 

@@ -1,7 +1,5 @@
 from django.urls import path
-# from . import views, LoginView
 from . import views
-from .views import LoginView,home_api
 
 urlpatterns = [
     path('home/', views.home, name="home"),
@@ -18,8 +16,4 @@ urlpatterns = [
     # path('download_attendance/', views.download_attendance, name='download_attendance'),
     # path('take-attendence/', views.take_attendence, name='take_attendence'),
     path('automate_attendance/', views.automate_attendance_view, name='automate_attendance'),
-
-
-    path('api/login/', LoginView.as_view(), name='login'),
-    path('api/homepage/', home_api, name='home-api'),
 ]
