@@ -330,6 +330,13 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
+from django.contrib.auth import logout
+from django.http import JsonResponse
+
+# def logout_view(request):
+#     logout(request)
+#     return JsonResponse({"message": "Logged out successfully"})
+
 
 def create_new_user(request):
     form = CreateEmployee()
