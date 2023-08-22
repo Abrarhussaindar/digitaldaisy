@@ -626,54 +626,54 @@ def transfer_daily_to_weekly_lists():
     dt_time = time(hours, minutes, seconds)
     print("dt_time: ", dt_time)
     # Check if it's equal or greater than 11:40
-    # if dt_time >= time(17, 50):
-    #     print("true")
-    for emp in employees:
-    
-        # Transfer daily lists to weekly lists
-        emp.weekly_login_list.append(emp.daily_login_list)
-        emp.weekly_logout_list.append(emp.daily_logout_list)
-        emp.weekly_duration_list.append(emp.daily_duration_list)
-        emp.weekly_work_time_list.append(emp.work_time)
-        emp.previous_work_time = emp.work_time
-        # Clear daily lists
-        emp.daily_login_list = "0"
-        emp.daily_logout_list = "0"
-        emp.daily_duration_list = "0"
-        emp.login_list = "0"
-        emp.logout_list = "0"
-        emp.duration_list = "0"
-        emp.work_time = timedelta(seconds=0)
-        emp.remaining_time = timedelta(hours=8)
+    if dt_time >= time(17, 50):
+        print("true")
+        for emp in employees:
         
+            # Transfer daily lists to weekly lists
+            emp.weekly_login_list.append(emp.daily_login_list)
+            emp.weekly_logout_list.append(emp.daily_logout_list)
+            emp.weekly_duration_list.append(emp.daily_duration_list)
+            emp.weekly_work_time_list.append(emp.work_time)
+            emp.previous_work_time = emp.work_time
+            # Clear daily lists
+            emp.daily_login_list = "0"
+            emp.daily_logout_list = "0"
+            emp.daily_duration_list = "0"
+            emp.login_list = "0"
+            emp.logout_list = "0"
+            emp.duration_list = "0"
+            emp.work_time = timedelta(seconds=0)
+            emp.remaining_time = timedelta(hours=8)
+            
 
-        emp.duration_time = "0:0:0"
-        if emp.permission == "not given":
-            emp.permission = "given"
-        emp.save()
-    # else:
-    #     pass
+            emp.duration_time = "0:0:0"
+            if emp.permission == "not given":
+                emp.permission = "given"
+            emp.save()
+    else:
+        pass
 
 def transfer_weekly_to_monthly_lists():
     # Get all employees
     employees = Employee.objects.all()
     current_datetime = datetime.now(pytz.timezone('Asia/Kolkata'))
-    # if current_datetime.weekday() == 6 and current_datetime.time() >= time(18, 30):
-    for emp in employees:
-        # Transfer weekly lists to monthly lists
-        emp.monthly_login_list.append(emp.weekly_login_list)
-        emp.monthly_logout_list.append(emp.weekly_logout_list)
-        emp.monthly_duration_list.append(emp.weekly_duration_list)
-        emp.monthly_work_time_list.append(emp.weekly_work_time_list)
-        
-        # Clear weekly lists
-        emp.weekly_login_list = "0"
-        emp.weekly_logout_list = "0"
-        emp.weekly_duration_list = "0"
-        emp.weekly_work_time_list = "0"
+    if current_datetime.weekday() == 6 and current_datetime.time() >= time(18, 30):
+        for emp in employees:
+            # Transfer weekly lists to monthly lists
+            emp.monthly_login_list.append(emp.weekly_login_list)
+            emp.monthly_logout_list.append(emp.weekly_logout_list)
+            emp.monthly_duration_list.append(emp.weekly_duration_list)
+            emp.monthly_work_time_list.append(emp.weekly_work_time_list)
+            
+            # Clear weekly lists
+            emp.weekly_login_list = "0"
+            emp.weekly_logout_list = "0"
+            emp.weekly_duration_list = "0"
+            emp.weekly_work_time_list = "0"
 
-        # Save changes to the employee
-        emp.save()
+            # Save changes to the employee
+            emp.save()
 
 
 def transfer_monthly_to_yearly_lists():
@@ -685,23 +685,23 @@ def transfer_monthly_to_yearly_lists():
 
     # Check if it's the last day of the month and it's 19:00
     last_day_of_month = current_datetime.replace(day=1, month=current_datetime.month + 1) - timedelta(days=1)
-    # if current_datetime.date() == last_day_of_month.date() and current_datetime.time() == time(18, 30):
-    for emp in employees:
-        # Transfer weekly lists to monthly lists
-        emp.yearly_login_list.append(emp.monthly_login_list)
-        emp.yearly_logout_list.append(emp.monthly_logout_list)
-        emp.yearly_duration_list.append(emp.monthly_duration_list)
-        emp.yearly_work_time_list.append(emp.monthly_work_time_list)
-        
-        # Save changes to the employee
-        emp.save()
-    for i in range(len(emp.yearly_login_list)):
-        if emp.yearly_login_list[i] == "0":
-            continue
-        else:
-            if emp.yearly_login_list[i].split()[0] not in emp.yearly_login_dates:
-                emp.yearly_login_dates.append(emp.yearly_login_list[i].split()[0])
-        emp.save()
+    if current_datetime.date() == last_day_of_month.date() and current_datetime.time() == time(18, 30):
+        for emp in employees:
+            # Transfer weekly lists to monthly lists
+            emp.yearly_login_list.append(emp.monthly_login_list)
+            emp.yearly_logout_list.append(emp.monthly_logout_list)
+            emp.yearly_duration_list.append(emp.monthly_duration_list)
+            emp.yearly_work_time_list.append(emp.monthly_work_time_list)
+            
+            # Save changes to the employee
+            emp.save()
+        for i in range(len(emp.yearly_login_list)):
+            if emp.yearly_login_list[i] == "0":
+                continue
+            else:
+                if emp.yearly_login_list[i].split()[0] not in emp.yearly_login_dates:
+                    emp.yearly_login_dates.append(emp.yearly_login_list[i].split()[0])
+            emp.save()
 def admin(request):
     return render(request)
 
