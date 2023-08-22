@@ -16,6 +16,9 @@
 <main>
 {% if user.is_authenticated %} 
     <div class="container">
+      <div class="msg">
+        <p>Don't Refresh The Page</p>
+      </div>
         <div class="emp">
           <div class="name">
           <h2>{% if user.is_authenticated %}
@@ -41,7 +44,7 @@
             {% else %} 
             <a href="{% url 'login' %}">LOGIN</a>
             {% endif %} 
-        </div>
+          </div>
         </div>
             <div class="sec1">
                 <div class="pld">
@@ -94,12 +97,14 @@
                 </div>
             </div>
             {% if user.is_superuser %}
+            
             <div class="sec2">
               <div class="tb3">
                   <div class="pld">
                       <h3>All Employee's Login Details</h3>
                   </div>
                   <div class="tw">
+                 
                       <h4>Design & development</h4>
                       <table border="0" cellspacing="0">
                           <tr>
@@ -552,7 +557,16 @@
           });
       }
   </script>
+  <script>
+    window.addEventListener("beforeunload", function() {
+      // Make an asynchronous AJAX request to log the user out on tab close
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "{% url 'user_logout' %}", true); // Use true for asynchronous request
+      xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+      xhr.send();
+    });
+  </script>
 
-
+ 
   </body>
 </html>

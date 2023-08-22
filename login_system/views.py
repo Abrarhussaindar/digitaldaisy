@@ -242,7 +242,9 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('Password')
         department = request.POST.get('department')
+        print(username, password, department)
         employee = authenticate(request, department=department, username=username, password=password)
+        print(employee)
         if employee is not None and employee.permission == "given":  # Check permission
             
             login(request, employee)
@@ -267,8 +269,8 @@ def user_login(request):
             employee.save()
 
             return redirect('home')
-        else:
-            permission = "not given"
+        # else:
+        #     permission = "not given"
 
     context = {
         "department_categories": department_categories,
@@ -324,8 +326,8 @@ def user_logout(request):
     # Save the changes to the employee
     emp.save()
 
-    request.session['counter_time'] = 0
-    request.session['login_time'] = None
+    
+
 
     logout(request)
     return redirect('login')
@@ -384,6 +386,7 @@ def home(request):
     employees_by_dep = Employee.objects.filter(department=emp.department)
     all_employees = Employee.objects.all()
 
+    
     design_development = Employee.objects.filter(department="Design & Development")
     salestm = Employee.objects.filter(department="Sales Daisy TecMart")
     salesfs = Employee.objects.filter(department="Sales Daisy Fashion")
@@ -393,6 +396,8 @@ def home(request):
     content_writer = Employee.objects.filter(department="Content Writer")
     admin = Employee.objects.filter(department="Management/Admin")
     process_co_ordinator = Employee.objects.filter(department="Process Co-ordinator")
+    dep_list = ["Design & Development","SEO", "HR", "Content Writer", "Management/Admin", "Process Co-ordinator", "Sales Daisy TecMart", "Sales Daisy Fashion", "Sales Digital Daisy"]
+    tb_list = [design_development, seo, hr, content_writer, admin, process_co_ordinator, salestm, salesfs, salesdd]
     if login_time_str:
         
         login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
@@ -441,7 +446,8 @@ def home(request):
 
         'employees': employees_by_dep,
         'all_employees': all_employees,
-
+        'dep_list': dep_list,
+        'tb_list': tb_list,
         'design_development': design_development,
         'salesdd': salesdd,
         'salestm': salestm,
