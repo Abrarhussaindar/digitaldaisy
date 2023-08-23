@@ -23,6 +23,8 @@ def attendance_automation(request):
 def work_time(request):
     return get_work_time(request)
 
+
+
 # User Views
 def user_login_view(request):
     return user_login(request)
@@ -45,13 +47,6 @@ def home_view(request):
 def check_authentication_view(request):
     return check_authentication(request)
 
-# Report Download
-# def download_daily_attendance_view(request):
-#     return download_daily_attendance(request)
-
-# def download_attendance_view(request):
-#     return download_attendance(request)
-
 # Admin Views
 @staff_member_required
 def download_employee_details_view(request):
@@ -61,5 +56,4 @@ def download_employee_details_view(request):
 def download_daily_employee_details_view(request):
     return download_daily_employee_details_v(request)
 
-# ... define other views ...
 

@@ -23,6 +23,7 @@ def home(request):
     all_employees = Employee.objects.all()
 
     
+    
     design_development = Employee.objects.filter(department="Design & Development")
     salestm = Employee.objects.filter(department="Sales Daisy TecMart")
     salesfs = Employee.objects.filter(department="Sales Daisy Fashion")
@@ -34,41 +35,44 @@ def home(request):
     process_co_ordinator = Employee.objects.filter(department="Process Co-ordinator")
     dep_list = ["Design & Development","SEO", "HR", "Content Writer", "Management/Admin", "Process Co-ordinator", "Sales Daisy TecMart", "Sales Daisy Fashion", "Sales Digital Daisy"]
     tb_list = [design_development, seo, hr, content_writer, admin, process_co_ordinator, salestm, salesfs, salesdd]
+    
     if login_time_str:
         
         login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
         duration = current_time - login_time
-
         today = current_time.date()
-
         total_work = emp.work_time + duration
         total_work_seconds = total_work.total_seconds()
         total_work_time = timedelta(hours=8)
         remaining_time = total_work_time - total_work
         total_work_str = str(total_work)
         total_work_formatted = total_work_str.rjust(8, '0')
+        # emp.psudo_work_time = total_work_formatted
+        # print("pwt: ", emp.psudo_work_time)
+        emp.psudo_work_time = total_work
+        emp.save()
         print("total_work_formatted: ", total_work_formatted)
+        print("emp pwt", emp.psudo_work_time)
     else:
-
         total_work_formatted = "00:00:00"
         total_work_seconds = 0
 
-    for em in design_development:
-        if login_time_str:
-            login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
-            duration = current_time - login_time
-            # print("duration: ", duration)
-            today = current_time.date()
-            total_work = em.work_time + duration
-            total_work_seconds = total_work.total_seconds()
-            total_work_time = timedelta(hours=8)
-            remaining_time = total_work_time - total_work
-            total_work_str = str(total_work)
-            total_work_formatted = total_work_str.rjust(8, '0')
-            # print("total_work_formatted: ", total_work_formatted)
-        else:
-            total_work_formatted = "00:00:00"
-            total_work_seconds = 0
+    # for em in design_development:
+    #     if login_time_str:
+    #         login_time = parser.isoparse(login_time_str).astimezone(pytz.timezone('Asia/Kolkata'))
+    #         duration = current_time - login_time
+    #         # print("duration: ", duration)
+    #         today = current_time.date()
+    #         total_work = em.work_time + duration
+    #         total_work_seconds = total_work.total_seconds()
+    #         total_work_time = timedelta(hours=8)
+    #         remaining_time = total_work_time - total_work
+    #         total_work_str = str(total_work)
+    #         total_work_formatted = total_work_str.rjust(8, '0')
+    #         # print("total_work_formatted: ", total_work_formatted)
+    #     else:
+    #         total_work_formatted = "00:00:00"
+    #         total_work_seconds = 0
         # print("em: ", em)
 
     employees = Employee.objects.all()

@@ -79,29 +79,20 @@ def user_logout(request):
     total_time = timedelta()
     emp.save()
 
+
     for duration_str in emp.daily_duration_list:
-
         total_time += parse_duration_time(duration_str)
-        print("total_time: ", total_time)
-
-    print("outside for loop total_time: ", total_time)
+        # print("total_time: ", total_time)
+    # print("outside for loop total_time: ", total_time)
     # Format the work time in h:m:s format
     work_time_str = str(total_time)
-
     # Save the work time to the employee instance
     emp.work_time = total_time
-
     total_work_time = timedelta(hours=8)
     remaining_time = total_work_time - emp.work_time
     # Update emp.remaining_time
     emp.remaining_time = remaining_time
-        # emp.save()
-
-    # Save the changes to the employee
     emp.save()
-
-    
-
 
     logout(request)
     return redirect('login')
@@ -143,3 +134,5 @@ def check_authentication(request):
         return JsonResponse({"authenticated": True})
     else:
         return JsonResponse({"authenticated": False}, status=401)
+
+

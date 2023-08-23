@@ -9,6 +9,7 @@ from dateutil import parser
 MAX_WORK_TIME = timedelta(hours=8)
 MIN_REMAINING_TIME = timedelta(hours=0)
 
+
 @login_required(login_url='login')
 @require_GET
 def get_work_time(request):
@@ -33,6 +34,7 @@ def get_work_time(request):
         if remaining_time < timedelta(seconds=0):
             # If the remaining_time is negative, set it to 0
             remaining_time = timedelta(seconds=0)
+        
 
         formatted_work_time = format_timedelta(total_work)
         formatted_remaining_time = format_timedelta(remaining_time)
@@ -62,3 +64,4 @@ def parse_duration_time(duration_time_str):
 
             return timedelta(hours=hours, minutes=minutes, seconds=seconds)
     return timedelta(seconds=0)
+
