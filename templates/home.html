@@ -17,7 +17,7 @@
 {% if user.is_authenticated %} 
     <div class="container">
       <div class="msg">
-        <p>Don't Refresh The Page, Your WorkTime Will get auto Refresh</p>
+        <p>Don't Refresh The Page</p>
       </div>
         <div class="emp">
           <div class="name">
@@ -59,12 +59,14 @@
                                 <th>Previous <br> Logout Time</th>
                                 <th>Last <br> Login Duration</th>
                                 <th class="twd">Previous<br> Work Done</th>
+
                             </tr>
                             <tr>
                                 <td>{{ emp.intime }} </td>
                                 <td>{{ emp.out_time }} </td>
                                 <td>{{ emp.duration_time }} </td>
                                 <td>{{ emp.previous_work_time }}</td>
+
                             </tr>
                         </table>
                     </div>
@@ -104,7 +106,7 @@
                       <h3>All Employee's Login Details</h3>
                   </div>
                   <div class="tw">
-                 
+                
                       <h4>Design & development</h4>
                       <table border="0" cellspacing="0">
                           <tr>
@@ -522,7 +524,11 @@
       // Refresh data every 10 seconds
       setInterval(updateData, 120000);
       updateData();
-    </script> 
+    </script>
+
+
+
+
       <script>
         function downloadEmployeeDetails() {
             // Perform an AJAX request to the URL that triggers the download view

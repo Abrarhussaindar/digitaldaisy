@@ -3,10 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from typing import Iterable
 from django.core.validators import MaxValueValidator
-from datetime import datetime, time, timedelta
+from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import logout as django_logout
-import pytz
 
 class MyUserManager(BaseUserManager):
     def create_user(self, username, email, intime, department, duration_time, out_time, logout_counter, login_counter, empid, name, designation, phone_number, permission, password=None):
