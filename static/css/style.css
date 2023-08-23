@@ -15,6 +15,12 @@ main .container{
   margin: 0 auto;
   
 }
+.container .msg{
+  text-align: center;
+  font-size: 26px;
+  color: red;
+  font-weight: bold;
+}
 .container .emp{
   display: flex;
   justify-content: space-between;
