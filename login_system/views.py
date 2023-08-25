@@ -531,8 +531,8 @@ def transfer_daily_to_weekly_lists():
         
 
         emp.duration_time = "0:0:0"
-        if emp.permission == "not given":
-            emp.permission = "given"
+        # if emp.permission == "not given":
+        #     emp.permission = "given"
         emp.save()
 
 
