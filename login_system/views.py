@@ -78,13 +78,13 @@ def update_work_time(request):
         for duration_str in emp.daily_duration_list:
             total_time += parse_duration_time(duration_str)
 
-        print("total_time: ",total_time)
+        # print("total_time: ",total_time)
         # Format the work time in h:m:s format
         work_time_str = str(total_time)
-        print("wts",work_time_str)
+        # print("wts",work_time_str)
         # Save the work time to the employee instance
         emp.work_time = total_time
-        print("emp.work_time: ",emp.work_time)
+        # print("emp.work_time: ",emp.work_time)
         emp.save()
 
         # Wait for 10 seconds before calculating again
@@ -242,9 +242,9 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('Password')
         department = request.POST.get('department')
-        print(username, password, department)
+        # print(username, password, department)
         employee = authenticate(request, department=department, username=username, password=password)
-        print(employee)
+        # print(employee)
         if employee is not None and employee.permission == "given":  # Check permission
             
             login(request, employee)
@@ -286,7 +286,7 @@ def user_logout(request):
     current_time = datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%Y-%m-%d %H:%M:%S")
     emp.logout_list.append(current_time)
     emp.daily_logout_list.append(current_time)
-    print("emp_intime: ", emp.intime)
+    # print("emp_intime: ", emp.intime)
     t1 = datetime.strptime(emp.intime, "%Y-%m-%d %H:%M:%S")
     t2 = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S")
     duration_time = t2 - t1
@@ -308,9 +308,9 @@ def user_logout(request):
     for duration_str in emp.daily_duration_list:
 
         total_time += parse_duration_time(duration_str)
-        print("total_time: ", total_time)
+        # print("total_time: ", total_time)
 
-    print("outside for loop total_time: ", total_time)
+    # print("outside for loop total_time: ", total_time)
     # Format the work time in h:m:s format
     work_time_str = str(total_time)
 
@@ -411,7 +411,7 @@ def home(request):
         remaining_time = total_work_time - total_work
         total_work_str = str(total_work)
         total_work_formatted = total_work_str.rjust(8, '0')
-        print("total_work_formatted: ", total_work_formatted)
+        # print("total_work_formatted: ", total_work_formatted)
     else:
 
         total_work_formatted = "00:00:00"
@@ -499,7 +499,7 @@ def download_daily_employee_details_view(request):
 def transfer_daily_to_weekly_lists():
     # Get all employees
     employees = Employee.objects.all()
-    print("employees: ", employees)
+    # print("employees: ", employees)
     # current_user = request.user
     # Get the current date and time
     current_datetime = datetime.now(pytz.timezone('Asia/Kolkata'))
@@ -508,7 +508,7 @@ def transfer_daily_to_weekly_lists():
     dt_string = current_datetime.time().strftime("%H:%M:%S")
     hours, minutes, seconds = map(int, dt_string.split(':'))
     dt_time = time(hours, minutes, seconds)
-    print("dt_time: ", dt_time)
+    # print("dt_time: ", dt_time)
     # Check if it's equal or greater than 11:40
 
     for emp in employees:
