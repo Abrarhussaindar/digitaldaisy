@@ -301,7 +301,7 @@ def user_logout(request):
     if request.user.is_superuser:
         emp.permission = "given"
     else:
-        emp.permission = "not given"
+        emp.permission = "given"
     total_time = timedelta()
     emp.save()
 
