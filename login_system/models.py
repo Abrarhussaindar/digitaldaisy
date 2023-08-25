@@ -164,7 +164,7 @@ class Employee(AbstractBaseUser):
     name = models.CharField(verbose_name='Name', max_length=200, null=True)
     username = models.CharField(verbose_name='Username', max_length=20, null=True, unique=True)
     empid = models.CharField(verbose_name='Employee ID', max_length=20, null=True)
-    permission = models.CharField(verbose_name='Permission', max_length=50, null=True, choices=permissions)
+    permission = models.CharField(verbose_name='Permission', max_length=50, null=True,default="given", choices=permissions)
 
     
     work_time = models.DurationField(
