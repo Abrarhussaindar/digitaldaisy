@@ -375,9 +375,9 @@ def change_permission(request):
 @login_required(login_url='login')
 def home(request):
     emp = request.user
-    if emp.permission == "not given":
-        logout(request)
-        return redirect('login')
+   # if emp.permission == "not given":
+       # logout(request)
+        #return redirect('login')
 
     date = datetime.now(pytz.timezone('Asia/Kolkata')).date()
     duration = None
